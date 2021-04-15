@@ -1,0 +1,45 @@
+.Whole-album {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.Whole-images {
+  position: relative;
+  width: 70%;
+  bottom: 20px;
+  right: 70px;
+  height: 50%;
+}
+.Whole-artist-name {
+  position: relative;
+  width: 200px;
+  height: 100px;
+  font-size: 23px;
+  left: 300px;
+  bottom: 300px;
+  border: 1px solid grey;
+}
+.Whole-tracks {
+  position: relative;
+  width: 700px;
+  height: 1000px;
+  right: 62px;
+  bottom: 80px;
+}
+.Witime9 {
+  position: relative;
+  width: 100%;
+  left: 200px;
+  height: 100%;
+}
+.Whole-button {
+  position: relative;
+  left: 310px;
+  width: 120px;
+  font-size: 25px;
+  border-radius: 7px;
+  height: 65px;
+  bottom: 270px;
+  background-color: #dee4ec;
+  border: none;
+}

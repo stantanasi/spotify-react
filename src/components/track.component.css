@@ -1,0 +1,19 @@
+.Track-number {
+  position: relative;
+  font-size: 20px;
+  margin: 0 10px;
+  font-weight: 400;
+}
+.Track-name {
+  position: relative;
+  font-size: 20px;
+  margin: 0 10px;
+  left: 70px;
+  font-weight: 400;
+}
+.Track-duration {
+  position: relative;
+  font-weight: 400;
+  font-size: 20px;
+  left: 200px;
+}
