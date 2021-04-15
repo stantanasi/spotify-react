@@ -1,26 +1,47 @@
-import React from 'react';
-import logo from './logo.svg';
+import { Component } from 'react'
 import './App.css';
+import AlbumComponent from './components/album.component';
+import { Album } from './models/album.model';
+import { SpotifyApiService } from './services/spotify-api.service';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+interface Props {
+
+}
+interface State {
+  albums: Album[];
+  albumChoose: Album | null;
 }
 
-export default App;
+export default class App extends Component<Props, State> {
+
+  state: State = { albums: [], albumChoose: null };
+  private spotifyApiService = new SpotifyApiService();
+
+  private showAlbum(album: Album) {
+    this.setState({
+      albums: this.state.albums,
+      albumChoose: album
+    });
+  }
+
+  componentDidMount() {
+    this.spotifyApiService.getAlbums(["7uPXXL49eGt4lJNB9GXqbQ", "5t6841R6FNAGkEqqLb6OC4"])
+      .then(data => this.setState({ albums: data }))
+  }
+
+  render() {
+    const albums = this.state.albums.map(album => {
+      return <div onClick={() => this.showAlbum(album)}>
+        {album.name}
+      </div>
+    })
+
+    return (
+      <div>
+        <div>{albums}</div>
+        <div>{this.state.albumChoose ? <AlbumComponent {...this.state.albumChoose} /> : ""}</div>
+      </div>
+    )
+  }
+}
+
