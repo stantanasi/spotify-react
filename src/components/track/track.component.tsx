@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Track } from "../models/track.model";
+import { Track } from "../../models/track.model";
 import "./track.component.css";
 
 export default class TrackComponent extends Component<Track> {

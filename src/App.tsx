@@ -1,10 +1,10 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import "./App.css";
-import AlbumComponent from "./components/album.component";
+import AlbumComponent from "./components/album/album.component";
 import { Album } from "./models/album.model";
 import { SpotifyApiService } from "./services/spotify-api.service";
 
-interface Props {}
+interface Props { }
 interface State {
   albums: Album[];
   albumChoose: Album | null;
@@ -16,41 +16,51 @@ export default class App extends Component<Props, State> {
 
   private showAlbum = (album: Album) => {
     this.setState({
-      albums: this.state.albums,
+      ...this.state,
       albumChoose: album,
     });
   };
   private closeAlbum = () => {
     this.setState({
-      albums: this.state.albums,
+      ...this.state,
       albumChoose: null,
     });
   };
+
   componentDidMount() {
-    this.spotifyApiService
-      .getAlbums(["7uPXXL49eGt4lJNB9GXqbQ", "5t6841R6FNAGkEqqLb6OC4"])
-      .then((data) => this.setState({ albums: data }));
+    const code = new URL(window.location.href).searchParams.get("code");
+    if (code) {
+      this.spotifyApiService.authorizationCode = code;
+    }
+
+    if (this.spotifyApiService.authorizationCode) {
+      this.spotifyApiService.getAccessToken()
+        .then((accessToken) => {
+          this.spotifyApiService.getAlbums(["7uPXXL49eGt4lJNB9GXqbQ", "5t6841R6FNAGkEqqLb6OC4"])
+            .then((data) => this.setState({
+              ...this.state,
+              albums: data
+            }));
+        });
+    } else {
+      this.spotifyApiService.getAuthorizationCode();
+    }
   }
 
   render() {
-    const albums = this.state.albums.map((album) => {
-      return <div onClick={() => this.showAlbum(album)}>{album.name}</div>;
-    });
-
     return (
       <div>
         <div className="container-albumname">Albums</div>
-        <div className="container-album">{albums}</div>
+        <div className="container-album">
+          {this.state.albums
+            .map((album) => <div onClick={() => this.showAlbum(album)}>{album.name}</div>)}
+        </div>
         <div className="container-image-description"></div>
         <div className="container-album-component">
-          {this.state.albumChoose ? (
+          {this.state.albumChoose &&
             <AlbumComponent
               {...this.state.albumChoose}
-              onClose={this.closeAlbum}
-            />
-          ) : (
-            ""
-          )}
+              onClose={this.closeAlbum} />}
         </div>
       </div>
     );

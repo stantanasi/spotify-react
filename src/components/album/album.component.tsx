@@ -1,8 +1,8 @@
-import { Component } from "react";
-import { Album } from "../models/album.model";
-import TrackComponent from "./track.component";
+import React, { Component } from "react";
 import "./album.component.css";
 import { WiTime9 } from "react-icons/wi";
+import TrackComponent from "../track/track.component";
+import { Album } from "../../models/album.model";
 
 interface Props extends Album {
   onClose: () => void;
@@ -13,16 +13,16 @@ export default class AlbumComponent extends Component<Props> {
     this.props.onClose();
   };
   render() {
-    const tracks = this.props.tracks.items.map((track) => {
-      return <TrackComponent {...track} />;
-    });
-
     return (
       <div className="Whole-album">
         <img src={this.props.images[0].url} alt="" className="Whole-images" />
         <div className="Whole-artist-name">
-          By {this.props.artists.map((artist) => artist.name).join(", ")}-{" "}
-          {this.props.release_date} - {this.props.tracks.total} songs
+          <span>By </span>
+          <span>{this.props.artists.map((artist) => artist.name).join(", ")}</span>
+          <span> - </span>
+          <span>{new Date(this.props.release_date).getFullYear()}</span>
+          <span> - </span>
+          <span>{this.props.tracks.total} songs</span>
         </div>
         <div>
           <button onClick={this.onClose} className="Whole-button">
@@ -41,7 +41,10 @@ export default class AlbumComponent extends Component<Props> {
               </tr>
             </thead>
             <br />
-            <tbody>{tracks}</tbody>
+            <tbody>
+              {this.props.tracks.items
+                .map((track) => <TrackComponent {...track} />)}
+            </tbody>
           </table>
         </div>
       </div>

@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { Album } from "../models/album.model";
-import { Artist } from "../models/artist.model";
-import { SpotifyApiService } from "../services/spotify-api.service";
-import AlbumComponent from "./album.component";
+import { Album } from "../../models/album.model";
+import { Artist } from "../../models/artist.model";
+import { SpotifyApiService } from "../../services/spotify-api.service";
 
 interface Props {
   id: string;

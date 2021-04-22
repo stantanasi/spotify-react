@@ -3,9 +3,40 @@ import { Artist } from "../models/artist.model";
 import { Track } from "../models/track.model";
 
 export class SpotifyApiService {
+
   private apiUrl = "https://api.spotify.com/v1";
-  private apiToken =
-    "BQD_QSuinc69sdbOYV94h1E0gD7JC0Uqhzp_Qs8WLa_f90etGNa_p8-Y9GjMoVtGFhRZVQ8achIJ8Y9mHe1x2blin6OCSELKyEw__1rteVUsuAVZu468IU5R-MwrsKmTD-ttlpMjkoygsulMWJX8VRqYURx_4Pp_swW6DhLYVJyIGAmO2zUFldA1wTjLaCM7JGaTQzIQdO64qWhmknofpenRw-UDBVsCvvl6P813L-40mlQ6_JfquFsHjHKO5fsE5WhpiUC-rCE058mQWRMVyYHh4xBNnM7Xv3NX";
+  public authorizationCode: string | null = null;
+  public apiToken: string | null = null;
+
+
+  getAuthorizationCode() {
+    const queryParams = {
+      client_id: "6c53c3ccd47649f9a8db795a2140f0c1",
+      response_type: "code",
+      redirect_uri: "http://localhost:3000/"
+    }
+
+    window.location.replace(`https://accounts.spotify.com/authorize?${this.queryParamsToString(queryParams)}`)
+  }
+
+  getAccessToken(): Promise<string | void> {
+    const queryParams = {
+      grant_type: "authorization_code",
+      code: this.authorizationCode,
+      redirect_uri: "http://localhost:3000/"
+    }
+
+    return fetch(`https://accounts.spotify.com/api/token?${this.queryParamsToString(queryParams)}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `Basic ${btoa(`6c53c3ccd47649f9a8db795a2140f0c1:9311074aee824503aa405fd3cd23118c`)}`
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => this.apiToken = response.access_token);
+  }
+
 
   getArtist(id: string): Promise<Artist> {
     return fetch(`${this.apiUrl}/artists/${id}`, {
@@ -35,5 +66,15 @@ export class SpotifyApiService {
     })
       .then((response) => response.json())
       .then((data) => data.items);
+  }
+
+
+
+  queryParamsToString(params: any): string {
+    const keyValuePairs = [];
+    for (const key in params) {
+      keyValuePairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(params[key]));
+    }
+    return keyValuePairs.join('&');
   }
 }
