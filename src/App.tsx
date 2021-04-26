@@ -36,7 +36,7 @@ export default class App extends Component<Props, State> {
     if (this.spotifyApiService.authorizationCode) {
       this.spotifyApiService.getAccessToken()
         .then((accessToken) => {
-          this.spotifyApiService.getAlbums(["7uPXXL49eGt4lJNB9GXqbQ", "5t6841R6FNAGkEqqLb6OC4"])
+          this.spotifyApiService.getAlbums(["7uPXXL49eGt4lJNB9GXqbQ", "5t6841R6FNAGkEqqLb6OC4", "7KddTnpP6IfqggZtuxGAkr", "0i7KBJEPQlerkB8OfxQdu2", "0hl8Hs6SM4NfS5TOrkOfRU", "4beTtJKeg3ITJsiVuxkiV0"])
             .then((data) => this.setState({
               ...this.state,
               albums: data
