@@ -6,6 +6,11 @@
   width: 500px;
   height: 400px;
   font-weight: 400;
+  
+  background: linear-gradient(to right, #2B1B17	, #000);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+  font-family: monospace;
 }
 .container-album-component {
   position: relative;
@@ -14,6 +19,8 @@
   font-size: 18px;
   width: 500px;
   height: 700px;
+  
+
 }
 .container-albumname {
   position: relative;
@@ -21,4 +28,6 @@
   left: 150px;
   font-size: 38px;
   font-weight: 700;
+  font-family: Pacifico;
+  text-decoration : underline;
 }
